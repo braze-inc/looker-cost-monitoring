@@ -1,0 +1,24 @@
+{
+  "label": "Snowflake Cost and Usage",
+  "category_label": "Models",
+  "branding": {
+    "image_uri": "https://wwwstatic-a.lookercdn.com/blocks/logos/snowflake.png",
+    "tagline": "Know and Explore your Snowflake Usage"
+  },
+
+    "constants": {
+        "CONNECTION_NAME": {
+            "label": "Connection name",
+            "value_constraint": "connection"
+        },
+        "DATABASE_NAME": {
+            "label": "Database Name"
+        }
+    },
+    "models": [
+        {
+            "name": "block_snowflake_usage_v2",
+            "connection_constant": "CONNECTION_NAME"
+        }
+    ]
+}
