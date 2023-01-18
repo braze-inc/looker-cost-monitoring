@@ -1,5 +1,5 @@
 view: login_history {
-  sql_table_name: @{DATABASE_NAME}.ACCOUNT_USAGE.LOGIN_HISTORY ;;
+  sql_table_name: SNOWFLAKE.ACCOUNT_USAGE.LOGIN_HISTORY ;;
 
   # Field Descriptions from Snowflake Documentation: https://docs.snowflake.net/manuals/sql-reference/account-usage/login_history.html
 

@@ -1,5 +1,5 @@
 view: referential_constraints {
-  sql_table_name: @{DATABASE_NAME}.ACCOUNT_USAGE.REFERENTIAL_CONSTRAINTS ;;
+  sql_table_name: SNOWFLAKE.ACCOUNT_USAGE.REFERENTIAL_CONSTRAINTS ;;
 
   # Field Descriptions from Snowflake Documentation: https://docs.snowflake.net/manuals/sql-reference/account-usage/referential_constraints.html
 

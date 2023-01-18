@@ -1,5 +1,5 @@
 view: warehouse_metering_history{
-  sql_table_name: @{DATABASE_NAME}.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY ;;
+  sql_table_name: SNOWFLAKE.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY ;;
 
   # Field Descriptions from Snowflake Documentation: https://docs.snowflake.net/manuals/sql-reference/account-usage/warehouse_metering_history.html
 

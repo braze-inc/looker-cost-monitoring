@@ -1,5 +1,5 @@
 view: views {
-  sql_table_name: @{DATABASE_NAME}.ACCOUNT_USAGE.VIEWS ;;
+  sql_table_name: SNOWFLAKE.ACCOUNT_USAGE.VIEWS ;;
 
   # Field Descriptions from Snowflake Documentation: https://docs.snowflake.net/manuals/sql-reference/account-usage/views.html
 

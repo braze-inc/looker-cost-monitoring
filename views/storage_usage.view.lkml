@@ -1,9 +1,9 @@
 view: storage_usage {
   sql_table_name:
   {% if database_name._in_query or database_id._in_query %}
- @{DATABASE_NAME}.ACCOUNT_USAGE.DATABASE_STORAGE_USAGE_HISTORY
+ SNOWFLAKE.ACCOUNT_USAGE.DATABASE_STORAGE_USAGE_HISTORY
   {% else %}
- @{DATABASE_NAME}.ACCOUNT_USAGE.STORAGE_USAGE
+ SNOWFLAKE.ACCOUNT_USAGE.STORAGE_USAGE
   {% endif %};;
 
   # Field Descriptions from Snowflake Documentation: https://docs.snowflake.net/manuals/sql-reference/account-usage/database_storage_usage_history.html
