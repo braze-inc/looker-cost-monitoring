@@ -1,5 +1,5 @@
 view: stages {
-  sql_table_name: @{DATABASE_NAME}.ACCOUNT_USAGE.STAGES ;;
+  sql_table_name: SNOWFLAKE.ACCOUNT_USAGE.STAGES ;;
 
   # Field Descriptions from Snowflake Documentation: https://docs.snowflake.net/manuals/sql-reference/account-usage/stages.html
 

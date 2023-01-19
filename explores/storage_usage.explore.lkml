@@ -1,3 +1,3 @@
-include: "/views/*.view"
+include: "/views/snowflake_usage/*.view"
 
 explore: storage_usage { }

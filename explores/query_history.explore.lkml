@@ -1,4 +1,4 @@
-include: "/views/*.view"
+include: "/views/snowflake_usage/*.view"
 
 explore: query_history {
   join: databases {

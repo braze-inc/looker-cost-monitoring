@@ -1,4 +1,4 @@
-include: "/views/*.view"
+include: "/views/snowflake_usage/*.view"
 
 explore: load_history{
   fields: [ALL_FIELDS*,-tables.table_name,-tables.id]

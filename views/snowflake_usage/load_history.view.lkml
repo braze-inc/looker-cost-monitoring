@@ -1,5 +1,5 @@
 view: load_history {
- sql_table_name: @{DATABASE_NAME}.ACCOUNT_USAGE.LOAD_HISTORY;;
+ sql_table_name: SNOWFLAKE.ACCOUNT_USAGE.LOAD_HISTORY;;
 
   # Field Descriptions from Snowflake Documentation: https://docs.snowflake.net/manuals/sql-reference/account-usage/load_history.html
 

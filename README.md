@@ -1,54 +1,51 @@
-## What does this Block do for me?
+<h1><span style="color:#2d7eea">README - Your LookML Project</span></h1>
 
-**(1) Reduce Costs and Optimize Performance** - Gain a holistic view across your datawarehouse and optimize across the board. Identify your longest running queries, most costly queries, troublesome users, and more, to uncover the most impactful cost-saving and performance-enhancing opportunities.
+<h2><span style="color:#2d7eea">LookML Overview</span></h2>
 
-**(2) Monitor Cost and Usage Data** - Provide comprehensive insights around your Snowflake deployment and usage across all your tables, databases and users. See how these metrics trend over time and compare to prior periods to ensure you're scaling effectively.
+LookML is a data modeling language for describing dimensions, fields, aggregates and relationships based on SQL.
 
-**(3) Compare Performance Across Databases** - If you're using another database, in addition to Snowflake, and want to understand the cost and performance implications for your workloads across your cloud environments, compare the Snowflake results from this Block with the results from other databases, such as Redshift ([Block here](https://looker.com/platform/blocks/source/redshift-optimization-by-aws)) or BigQuery([Block here](https://looker.com/platform/blocks/source/google-cloud-billing-by-datatonic)).
+LookML is powerful because it:
 
-**(4) Enterprise Data Platform** - Take advantage of Looker's data platform functionality, including data actions, scheduling, permissions, alerting, parameterization (each user can only see their own data), and more. Get immediate alerts when usage is exceeded, queries exceed a runtime threshold, or any other business criteria.
+- **Is all about reusability**: Most data analysis requires the same work to be done over and over again. You extract
+raw data, prepare it, deliver an analysis... and then are never able touse any of that work again. This is hugely
+inefficient, since the next analysis often involves many of the same steps. With LookML, once you define a
+dimension or a measure, you continue to build on it, rather than having to rewrite it again and again.
+- **Empowers end users**:  The data model that data analysts and developers create in LookML condenses and
+encapsulates the complexity of SQL, it and lets analysts get the knowledge about what their data means out of
+their heads so others can use it. This enables non-technical users to do their jobs &mdash; building dashboards,
+drilling to row-level detail, and accessing complex metrics &mdash; without having to worry about what’s behind the curtain.
+- **Allows for data governance**: By defining business metrics in LookML, you can ensure that Looker is always a
+credible single source of truth.
 
-**(5) Understand Data Loading Issues** - Analyze data loading successes and failures into any of your snowflake databases and track or alert on unexpected changes.
+The Looker application uses a model written in LookML to construct SQL queries against a particular database that
+business analysts can [Explore](https://docs.looker.com/r/exploring-data) on. For an overview on the basics of LookML, see [What is LookML?](https://docs.looker.com/r/what-is-lookml)
 
-## Snowflake Account Usage Data Structure
-* Snowflake's [Account Usage](https://docs.snowflake.net/manuals/sql-reference/account-usage.html) dataset comes complete with several tables (called "views"), such as databases, functions, query history, and much more. Colectively these tables give a comprehensive overview of Snowflake operations, execution steps, and processing time.
+<h2><span style="color:#2d7eea">Learn to Speak Looker</span></h2>
+R
+A LookML project is a collection of LookML files that describes a set of related [views](https://docs.looker.com/r/terms/view-file), [models](https://docs.looker.com/r/terms/model-file), and [Explores](https://docs.looker.com/r/terms/explore).
+- A [view](https://docs.looker.com/r/terms/view-file) (.view files) contains information about how to access or calculate information from each table (or
+across multiple joined tables). Here you’ll typically define the view, its dimensions and measures, and its field sets.
+- A [model](https://docs.looker.com/r/terms/model-file) (.model file) contains information about which tables to use and how they should be joined together.
+Here you’ll typically define the model, its Explores, and its joins.
+- An [Explore](https://docs.looker.com/r/terms/explore) is the starting point for business users to query data, and it is the end result of the LookML you are
+writing. To see the Explores in this project, select an Explore from the Explore menu.
 
-## Block Structure
-* This Block is built on the ACCOUNT_USAGE share provided by Snowflake (using their [Sharehouse](https://www.snowflake.net/data-sharehouse/) offering).
-* Each Snowflake table is represented as it's own view in Looker. The Model file of this Block joins together the underlying views based on available keys. It provides a starting place for additional custom modeling.
-This Block covers all of the core metrics that come with the dataset, as well as additional value-add analysis, and should serve as a great jump start for further exploration.
-* The schema documentation for Account Usage can be found in [Snowflake's documentation](https://docs.snowflake.net/manuals/LIMITEDACCESS/data-sharing-account-usage.html). Please note that your naming might vary slightly.
+<h2><span style="color:#2d7eea">Exploring Data</span></h2>
 
-## Additional Info
+Ad-hoc data discovery is one of Looker’s most powerful and unique features. As you evaluate use cases for your
+trial, consider what business areas you would like to explore. Open the Explore menu in the main navigation to see
+the Explores you are building.
 
-#### Data Latency
-* The INFORMATION_SCHEMA views and table functions display data in real-time, whereas the ACCOUNT_USAGE views have some built-in latency, due to the process of extracting the usage data from Snowflake’s internal metadata store. However, the ACCOUNT_USAGE views have been designed to minimize the latency impact, based on the type of data displayed in the views:
+<h2><span style="color:#2d7eea">The Development Workflow</span></h2>
 
-#### Runtime:
-* Approximately 1 minute for the following views: ``QUERY_HISTORY``, ``LOGIN_HISTORY``
+To support a multi-developer environment, Looker is integrated with Git for version control. Follow [these directions](https://docs.looker.com/r/develop/git-setup)
+to set up Git for your project. To edit LookML, expand the Develop drop-down and toggle on [Development Mode](https://docs.looker.com/r/terms/dev-mode). In
+Development Mode, changes you make to the LookML model exist only in your account until you commit the
+changes and push them to your production model.
 
-#### Analytic:
-* 1 hour (or less) for the following views: ``WAREHOUSE_METERING_HISTORY``, ``STORAGE_USAGE``, ``LOAD_HISTORY``, and ``DATABASE_STORAGE_USAGE_HISTORY``
+<h2><span style="color:#2d7eea">Additional Resources</span></h2>
 
-#### Dictionary:
-* 1 hour (or less) for the following Columns: ``DATABASES``, ``FILE_FORMATS``, ``FUNCTIONS``, ``REFERENTIAL_CONSTRAINTS``, ``SCHEMATA``, ``SEQUENCES``, ``STAGES``, ``TABLE_CONSTRAINTS``, ``TABLE_STORAGE_METRICS``,``TABLES``, and ``VIEWS``
-
-## Implementation Instructions
-
-#### Accessing the ACCOUNT USAGE Share
-To access the ACCOUNT_USAGE share, an account administrator must grant the user provided in your [looker connection](https://discourse.looker.com/t/connecting-to-snowflake/203) with access to the appropriate schema.
-
-As an example, The commands below would be used if the user in your looker connection was granted the "looker_role" and that is how you plan on permissioning the SNOWFLAKE (or the database you specified on install) shared DB:
-
-```
-grant usage on database SNOWFLAKE to role looker_role;
-grant usage on schema SNOWFLAKE.ACCOUNT_USAGE to role looker_role;
-grant select on all tables in schema SNOWFLAKE.ACCOUNT_USAGE to role looker_role;
-```
-
-#### Dashboards
-The dashboard can be used as is, or customized to your specific requirements. If you've customized the model name, rename the model in each LookML Dashboard element from "snowflake_usage" to the model name you've selected. We recommend using a global Find & Replace for this.
-
-#### Customization
-- This block uses refinements for customization. For more information on using refinements to customize marketplace blocks, please see [this link](https://docs.looker.com/data-modeling/marketplace/customize-blocks#marketplace_blocks_that_use_refinements).
-- Refinements can be used to add new content or modify existing content without the need to copy individual LookML elements into a new project.
+To learn more about LookML and how to develop visit:
+- [Looker User Guide](https://looker.com/guide)
+- [Looker Help Center](https://help.looker.com)
+- [Looker University](https://training.looker.com/)
