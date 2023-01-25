@@ -5,6 +5,8 @@ connection: "braze_data_services_cost_attribution"
 # include: "/views/snowflake_cost_attribution/*.view"
 include: "/views/snowflake_cost_attribution/query_history_enriched.view"
 include: "/views/snowflake_cost_attribution/query_cost_last_30_days_view.view"
+include: "/explores/*.explore"
+include: "/dashboards/*.dashboard.lookml"
 
 # Datagroups define a caching policy for an Explore. To learn more,
 # use the Quick Help panel on the right to see documentation.
