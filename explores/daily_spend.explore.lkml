@@ -1,3 +1,3 @@
-include: "/views/snowflake_cost_attribution/daily_spend.view"
+include: "/views/snowflake_cost_attribution/*.view"
 
 explore: daily_spend {}

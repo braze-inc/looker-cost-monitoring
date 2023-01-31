@@ -1,3 +1,3 @@
-include: "/views/snowflake_cost_attribution/dbt_queries.view"
+include: "/views/snowflake_cost_attribution/*.view"
 
-explore: dbt_queries {}
+explore: dbt_queries { }
