@@ -413,12 +413,28 @@ view: query_history_enriched {
 
   dimension_group: start_time {
     type: time
+    view_label: "_PoP"
     timeframes: [
+      # raw,
+      # time,
+      # date,
+      # week,
+      # month,
+      # quarter,
+      # year
       raw,
       time,
+      hour_of_day,
       date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
       week,
+      week_of_year,
       month,
+      month_name,
+      month_num,
       quarter,
       year
     ]
@@ -479,4 +495,196 @@ view: query_history_enriched {
     type: count
     drill_fields: [role_name, user_name, warehouse_name, schema_name, database_name]
   }
+
+
+
+
+
+
+  # period over period pt.2
+  dimension: start_time_month_of_quarter_advanced {
+    label: "Query Month of Quarter"
+    group_label: "Query Dates"
+    group_item_label: "Month of Quarter"
+    type: number
+    sql:
+      case
+        when ${query_history_enriched.start_time_month_num} IN (1,4,7,10) THEN 1
+        when ${query_history_enriched.start_time_month_num} IN (2,5,8,11) THEN 2
+        else 3
+      end
+    ;;
+  }
+
+  dimension: is_to_date_advanced {
+    hidden: yes
+    type: yesno
+    sql:
+      {% if parameters.select_timeframe_advanced._parameter_value == 'ytd' %}true
+      {% else %}
+        {% if parameters.apply_to_date_filter_advanced._parameter_value == 'true' %}
+          {% if parameters.select_timeframe_advanced._parameter_value == 'week' %}
+            ${query_history_enriched.start_time_day_of_week_index} <= ${parameters.current_timestamp_advanced_day_of_week_index}
+          {% elsif parameters.select_timeframe_advanced._parameter_value == 'day' %}
+            ${query_history_enriched.start_time_hour_of_day} <= ${parameters.current_timestamp_advanced_hour_of_day}
+          {% elsif parameters.select_dynamic_timeframe_advanced._parameter_value == 'quarter' %}
+            ${query_history_enriched.start_time_month_of_quarter_advanced} <= ${parameters.current_timestamp_month_of_quarter_advanced}
+          {% elsif parameters.select_timeframe_advanced._parameter_value == 'year' %}
+            ${query_history_enriched.start_time_day_of_year} <= ${parameters.current_timestamp_advanced_day_of_year}
+          {% else %}
+            ${query_history_enriched.start_time_day_of_month} <= ${parameters.current_timestamp_advanced_day_of_month}
+          {% endif %}
+        {% else %} true
+        {% endif %}
+      {% endif %}
+    ;;
+  }
+
+  dimension: selected_dynamic_timeframe_advanced  {
+    label_from_parameter: parameters.select_timeframe_advanced
+    type: string
+    hidden: yes
+    sql:
+      {% if parameters.select_timeframe_advanced._parameter_value == 'day' %}
+        ${query_history_enriched.start_time_date}
+      {% elsif parameters.select_timeframe_advanced._parameter_value == 'week' %}
+        ${query_history_enriched.start_time_week}
+      {% elsif parameters.select_timeframe_advanced._parameter_value == 'year' %}
+        ${query_history_enriched.start_time_year}
+      {% elsif parameters.select_timeframe_advanced._parameter_value == 'quarter' %}
+        ${query_history_enriched.start_time_quarter}
+      {% elsif parameters.select_timeframe_advanced._parameter_value == 'ytd' %}
+        CONCAT('YTD (',${query_history_enriched.start_time_year},'-',${parameters.selected_reference_date_default_today_advanced_month_num},'-',${parameters.selected_reference_date_default_today_advanced_day_of_month},')')
+      {% else %}
+        ${query_history_enriched.start_time_month}
+      {% endif %}
+    ;;
+  }
+
+  dimension: selected_dynamic_day_of_advanced  {
+    label: "{%
+    if parameters.select_timeframe_advanced._is_filtered and parameters.select_timeframe_advanced._parameter_value == 'month' %}Day of Month{%
+    elsif parameters.select_timeframe_advanced._is_filtered and parameters.select_timeframe_advanced._parameter_value == 'week' %}Day of Week{%
+    elsif parameters.select_timeframe_advanced._is_filtered and parameters.select_timeframe_advanced._parameter_value == 'day' %}Hour of Day{%
+    elsif parameters.select_timeframe_advanced._is_filtered and parameters.select_timeframe_advanced._parameter_value == 'year' %}Months{%
+    elsif parameters.select_timeframe_advanced._is_filtered and parameters.select_timeframe_advanced._parameter_value == 'ytd' %}Day of Year{%
+    else %}Selected Dynamic Timeframe Granularity{%
+    endif %}"
+    order_by_field: query_history_enriched.selected_dynamic_day_of_sort_advanced
+    type: string
+    sql:
+    {% if parameters.select_timeframe_advanced._parameter_value == 'day' %}
+      ${query_history_enriched.start_time_hour_of_day}
+    {% elsif parameters.select_timeframe_advanced._parameter_value == 'week' %}
+      ${query_history_enriched.start_time_day_of_week}
+    {% elsif parameters.select_timeframe_advanced._parameter_value == 'year' %}
+      ${query_history_enriched.start_time_month_name}
+    {% elsif parameters.select_timeframe_advanced._parameter_value == 'quarter' %}
+      ${query_history_enriched.start_time_month_of_quarter_advanced}
+      {% elsif parameters.select_timeframe_advanced._parameter_value == 'ytd' %}
+      ${query_history_enriched.start_time_day_of_year}
+    {% else %}
+      ${query_history_enriched.start_time_day_of_month}
+    {% endif %}
+    ;;
+  }
+
+  dimension: selected_dynamic_day_of_sort_advanced  {
+    hidden: yes
+    label_from_parameter: parameters.select_timeframe_advanced
+    type: number
+    sql:
+    {% if parameters.select_timeframe_advanced._parameter_value == 'day' %}
+      ${query_history_enriched.start_time_hour_of_day}
+    {% elsif parameters.select_timeframe_advanced._parameter_value == 'week' %}
+      ${query_history_enriched.start_time_day_of_week_index}
+    {% elsif parameters.select_timeframe_advanced._parameter_value == 'year' %}
+      ${query_history_enriched.start_time_month_num}
+    {% elsif parameters.select_timeframe_advanced._parameter_value == 'quarter' %}
+      ${query_history_enriched.start_time_month_of_quarter_advanced}
+    {% elsif parameters.select_timeframe_advanced._parameter_value == 'ytd' %}
+      ${query_history_enriched.start_time_day_of_year}
+    {% else %}
+      ${query_history_enriched.start_time_day_of_month}
+    {% endif %}
+    ;;
+  }
+
+
+
+
+
+  # period over period pt.3
+  ### replace any reference to query_history_enriched.created_[...] by the view/dimensions of your choosing
+  ### We're assuming here that the date dimension we want to leverage in the PoP is query_history_enriched.created_date labeled as "Orders Date"
+  #####  CURRENT/REFERENCE [Timeframe] VS PREVIOUS [Timeframe]
+
+  dimension: current_vs_previous_period_advanced {
+    label: "Current vs Previous Period"
+    description: "Use this dimension along with \"Select Timeframe\", \"Select Reference Date\", \"To Date\" and \"Select Comparison\" filters"
+    type: string
+    sql:
+      {% if parameters.select_timeframe_advanced._parameter_value == "ytd" %}
+        case
+          when ${query_history_enriched.start_time_date} BETWEEN date_trunc(year, ${parameters.selected_reference_date_default_today_advanced_raw}) and ${parameters.selected_reference_date_default_today_advanced_date}
+            then ${selected_dynamic_timeframe_advanced}
+          when ${query_history_enriched.start_time_date} BETWEEN date_trunc(year, dateadd(year, -1,${parameters.selected_reference_date_default_today_advanced_raw})) and dateadd(year, -1, ${parameters.selected_reference_date_default_today_advanced_date})
+            then ${selected_dynamic_timeframe_advanced}
+          else null
+        end
+      {% else %}
+        {% if parameters.select_comparison._parameter_value == "year" %}
+          case
+            when date_trunc({% parameter parameters.select_timeframe_advanced %}, ${query_history_enriched.start_time_raw}) = date_trunc({% parameter parameters.select_timeframe_advanced %}, ${parameters.selected_reference_date_default_today_advanced_raw})
+              then ${selected_dynamic_timeframe_advanced}
+            when date_trunc({% parameter parameters.select_timeframe_advanced %}, ${query_history_enriched.start_time_raw}) = date_trunc({% parameter parameters.select_timeframe_advanced %}, dateadd(year, -1, ${parameters.selected_reference_date_default_today_advanced_raw}))
+              then ${selected_dynamic_timeframe_advanced}
+          end
+        {% elsif parameters.select_comparison._parameter_value == "period" %}
+          case
+            when date_trunc({% parameter parameters.select_timeframe_advanced %}, ${query_history_enriched.start_time_raw}) = date_trunc({% parameter parameters.select_timeframe_advanced %}, ${parameters.selected_reference_date_default_today_advanced_raw})
+              then ${selected_dynamic_timeframe_advanced}
+            when date_trunc({% parameter parameters.select_timeframe_advanced %}, ${query_history_enriched.start_time_raw}) = date_trunc({% parameter parameters.select_timeframe_advanced %}, dateadd({% parameter parameters.select_timeframe_advanced %}, -1, ${parameters.selected_reference_date_default_today_advanced_raw}))
+              then ${selected_dynamic_timeframe_advanced}
+          end
+        {% endif %}
+      {% endif %}
+      ;;
+  }
+
+
+  dimension: current_vs_previous_period_hidden_advanced {
+    label: "Current vs Previous Period (Hidden - for measure only)"
+    hidden: yes
+    description: "Hide this measure so that it doesn't appear in the field picket and use it to filter measures (since the values are static)"
+    type: string
+    sql:
+      {% if parameters.select_timeframe_advanced._parameter_value == "ytd" %}
+        case
+          when ${query_history_enriched.start_time_raw} BETWEEN date_trunc(year, ${parameters.selected_reference_date_default_today_advanced_raw}) and ${parameters.selected_reference_date_default_today_advanced_raw}
+            then 'reference'
+          when ${query_history_enriched.start_time_raw} BETWEEN date_trunc(year, dateadd(year, -1, ${parameters.selected_reference_date_default_today_advanced_raw})) and dateadd(year, -1, ${parameters.selected_reference_date_default_today_advanced_date})
+            then 'comparison'
+          else null
+        end
+      {% else %}
+        {% if parameters.select_comparison._parameter_value == "year" %}
+          case
+            when date_trunc({% parameter parameters.select_timeframe_advanced %}, ${query_history_enriched.start_time_raw}) = date_trunc({% parameter parameters.select_timeframe_advanced %}, ${parameters.selected_reference_date_default_today_advanced_raw})
+              then 'reference'
+            when date_trunc({% parameter parameters.select_timeframe_advanced %}, ${query_history_enriched.start_time_raw}) = date_trunc({% parameter parameters.select_timeframe_advanced %}, dateadd(year, -1, ${parameters.selected_reference_date_default_today_advanced_raw}))
+              then 'comparison'
+          end
+        {% elsif parameters.select_comparison._parameter_value == "period" %}
+          case
+            when date_trunc({% parameter parameters.select_timeframe_advanced %}, ${query_history_enriched.start_time_raw}) = date_trunc({% parameter parameters.select_timeframe_advanced %}, ${parameters.selected_reference_date_default_today_advanced_raw})
+              then 'reference'
+            when date_trunc({% parameter parameters.select_timeframe_advanced %}, ${query_history_enriched.start_time_raw}) = date_trunc({% parameter parameters.select_timeframe_advanced %}, dateadd({% parameter parameters.select_timeframe_advanced %}, -1, ${parameters.selected_reference_date_default_today_advanced_raw}))
+              then 'comparison'
+          end
+        {% endif %}
+      {% endif %}
+    ;;
+  }
+
 }
