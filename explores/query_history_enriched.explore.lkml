@@ -14,4 +14,8 @@ explore: query_history_enriched {
   ;;
 
   join: parameters {}
+
+  conditionally_filter: {
+    filters: [parameters.select_reference_date_advanced: "1 days ago for 1 day"]
+  }
 }
