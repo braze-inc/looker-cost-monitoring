@@ -11,4 +11,6 @@
 
 include: "/views/snowflake_cost_attribution/query_cost_last_30_days_view.view"
 
-explore: query_cost_last_30_days_view {}
+explore: query_cost_last_30_days_view {
+  hidden: yes
+}

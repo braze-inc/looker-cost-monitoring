@@ -1,6 +1,7 @@
 include: "/views/snowflake_usage/*.view"
 
 explore: query_history {
+  hidden: yes
   join: databases {
     type: left_outer
     sql_on: ${query_history.database_name} = ${databases.database_name} ;;

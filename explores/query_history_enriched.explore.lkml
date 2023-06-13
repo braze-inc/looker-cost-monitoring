@@ -1,6 +1,7 @@
 include: "/views/snowflake_cost_attribution/*.view"
 
 explore: query_history_enriched {
+  hidden: yes
   join: dbt_queries {
     relationship: one_to_one
     type: left_outer

@@ -1,3 +1,5 @@
 include: "/views/snowflake_cost_attribution/*.view"
 
-explore: daily_spend {}
+explore: daily_spend {
+  hidden: yes
+}

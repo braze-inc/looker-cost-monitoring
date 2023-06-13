@@ -1,3 +1,4 @@
 include: "/views/snowflake_usage/*.view"
 
-explore: login_history { }
+explore: login_history {
+  hidden: yes}
