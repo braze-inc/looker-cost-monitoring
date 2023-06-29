@@ -13,7 +13,7 @@ project_name: "snowflake-account-usage"
 #   export: override_optional
 # }
 
-constant: CONNECTION_NAME {
-  value: "braze_data_services_ccep"
-  export: override_optional
-}
+# constant: CONNECTION_NAME {
+#   value: "braze_data_services_ccep"
+#   export: override_optional
+# }
