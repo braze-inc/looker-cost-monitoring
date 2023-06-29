@@ -1,4 +1,4 @@
-connection: "braze_data_services_ccep"
+connection: "@{CONNECTION_NAME}"
 
 # include: "/views/*.view.lkml"                # include all views in the views/ folder in this project
 # include: "/**/*.view.lkml"                 # include all views in this project
