@@ -1,8 +1,8 @@
-# The name of this view in Looker is "Table Storage Metrics"
-view: table_storage_metrics {
+# The name of this view in Looker is "Stg Table Storage Metrics"
+view: stg_table_storage_metrics {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "INFORMATION_SCHEMA"."TABLE_STORAGE_METRICS" ;;
+  sql_table_name: "SNOWFLAKE"."STG_TABLE_STORAGE_METRICS" ;;
   drill_fields: [id]
 
   # This primary key is the unique key for this table in the underlying database.
