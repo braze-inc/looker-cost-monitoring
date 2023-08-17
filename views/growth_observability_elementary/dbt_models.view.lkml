@@ -1,8 +1,8 @@
-# The name of this view in Looker is "Dbt Seeds"
-view: dbt_seeds {
+# The name of this view in Looker is "Dbt Models"
+view: dbt_models {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "BRAZE_CAMPAIGN_CANVAS_ELEMENTARY"."DBT_SEEDS" ;;
+  sql_table_name: "ELEMENTARY"."DBT_MODELS" ;;
 
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
@@ -26,6 +26,16 @@ view: dbt_seeds {
     sql: ${TABLE}."DATABASE_NAME" ;;
   }
 
+  dimension: depends_on_macros {
+    type: string
+    sql: ${TABLE}."DEPENDS_ON_MACROS" ;;
+  }
+
+  dimension: depends_on_nodes {
+    type: string
+    sql: ${TABLE}."DEPENDS_ON_NODES" ;;
+  }
+
   dimension: description {
     type: string
     sql: ${TABLE}."DESCRIPTION" ;;
@@ -34,6 +44,11 @@ view: dbt_seeds {
   dimension: generated_at {
     type: string
     sql: ${TABLE}."GENERATED_AT" ;;
+  }
+
+  dimension: materialization {
+    type: string
+    sql: ${TABLE}."MATERIALIZATION" ;;
   }
 
   dimension: meta {
@@ -87,6 +102,6 @@ view: dbt_seeds {
   }
   measure: count {
     type: count
-    drill_fields: [schema_name, database_name, package_name, name]
+    drill_fields: [database_name, schema_name, package_name, name]
   }
 }

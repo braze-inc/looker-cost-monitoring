@@ -3,7 +3,7 @@ connection: "braze_data_services_ccep"
 #include: "/views/observability_elementary_ccep/*.view.lkml"                # include all views in the views/ folder in this project
 # include: "/**/*.view.lkml"                 # include all views in this project
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
-include: "/views/observability_elementary_ccep/*.view.lkml"
+# include: "/views/observability_elementary_ccep/*.view.lkml"
 include: "/explores/*.explore"
 include: "/dashboards/*.dashboard.lookml"
 

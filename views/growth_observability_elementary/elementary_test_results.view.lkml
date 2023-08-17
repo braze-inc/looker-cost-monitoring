@@ -1,45 +1,33 @@
-# The name of this view in Looker is "Alerts"
-view: alerts {
+# The name of this view in Looker is "Elementary Test Results"
+view: elementary_test_results {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "BRAZE_CAMPAIGN_CANVAS_ELEMENTARY"."ALERTS" ;;
-  drill_fields: [alert_id]
+  sql_table_name: "ELEMENTARY"."ELEMENTARY_TEST_RESULTS" ;;
+  drill_fields: [id]
 
   # This primary key is the unique key for this table in the underlying database.
   # You need to define a primary key in a view in order to join to other views.
 
-  dimension: alert_id {
+  dimension: id {
     primary_key: yes
     type: string
-    sql: ${TABLE}."ALERT_ID" ;;
+    sql: ${TABLE}."ID" ;;
   }
     # Here's what a typical dimension looks like in LookML.
     # A dimension is a groupable field that can be used to filter query results.
-    # This dimension will be called "Alert Description" in Explore.
-
-  dimension: alert_description {
-    type: string
-    sql: ${TABLE}."ALERT_DESCRIPTION" ;;
-  }
-
-  dimension: alert_results_query {
-    type: string
-    sql: ${TABLE}."ALERT_RESULTS_QUERY" ;;
-  }
-
-  dimension: alert_sent {
-    type: yesno
-    sql: ${TABLE}."ALERT_SENT" ;;
-  }
-
-  dimension: alert_type {
-    type: string
-    sql: ${TABLE}."ALERT_TYPE" ;;
-  }
+    # This dimension will be called "Column Name" in Explore.
 
   dimension: column_name {
     type: string
     sql: ${TABLE}."COLUMN_NAME" ;;
+  }
+  # Dates and timestamps can be represented in Looker using a dimension group of type: time.
+  # Looker converts dates and timestamps to the specified timeframes within the dimension group.
+
+  dimension_group: created {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: ${TABLE}."CREATED_AT" ;;
   }
 
   dimension: data_issue_id {
@@ -51,13 +39,32 @@ view: alerts {
     type: string
     sql: ${TABLE}."DATABASE_NAME" ;;
   }
-  # Dates and timestamps can be represented in Looker using a dimension group of type: time.
-  # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
   dimension_group: detected {
     type: time
     timeframes: [raw, time, date, week, month, quarter, year]
     sql: ${TABLE}."DETECTED_AT" ;;
+  }
+
+  dimension: failures {
+    type: number
+    sql: ${TABLE}."FAILURES" ;;
+  }
+
+  # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
+  # measures for this dimension, but you can also add measures of many different aggregates.
+  # Click on the type parameter to see all the options in the Quick Help panel on the right.
+
+  measure: total_failures {
+    type: sum
+    sql: ${failures} ;;  }
+  measure: average_failures {
+    type: average
+    sql: ${failures} ;;  }
+
+  dimension: invocation_id {
+    type: string
+    sql: ${TABLE}."INVOCATION_ID" ;;
   }
 
   dimension: model_unique_id {
@@ -85,11 +92,6 @@ view: alerts {
     sql: ${TABLE}."SCHEMA_NAME" ;;
   }
 
-  dimension: sent_at {
-    type: string
-    sql: ${TABLE}."SENT_AT" ;;
-  }
-
   dimension: severity {
     type: string
     sql: ${TABLE}."SEVERITY" ;;
@@ -100,16 +102,6 @@ view: alerts {
     sql: ${TABLE}."STATUS" ;;
   }
 
-  dimension: sub_type {
-    type: string
-    sql: ${TABLE}."SUB_TYPE" ;;
-  }
-
-  dimension: suppression_status {
-    type: string
-    sql: ${TABLE}."SUPPRESSION_STATUS" ;;
-  }
-
   dimension: table_name {
     type: string
     sql: ${TABLE}."TABLE_NAME" ;;
@@ -118,6 +110,11 @@ view: alerts {
   dimension: tags {
     type: string
     sql: ${TABLE}."TAGS" ;;
+  }
+
+  dimension: test_alias {
+    type: string
+    sql: ${TABLE}."TEST_ALIAS" ;;
   }
 
   dimension: test_execution_id {
@@ -135,9 +132,29 @@ view: alerts {
     sql: ${TABLE}."TEST_PARAMS" ;;
   }
 
+  dimension: test_results_description {
+    type: string
+    sql: ${TABLE}."TEST_RESULTS_DESCRIPTION" ;;
+  }
+
+  dimension: test_results_query {
+    type: string
+    sql: ${TABLE}."TEST_RESULTS_QUERY" ;;
+  }
+
   dimension: test_short_name {
     type: string
     sql: ${TABLE}."TEST_SHORT_NAME" ;;
+  }
+
+  dimension: test_sub_type {
+    type: string
+    sql: ${TABLE}."TEST_SUB_TYPE" ;;
+  }
+
+  dimension: test_type {
+    type: string
+    sql: ${TABLE}."TEST_TYPE" ;;
   }
 
   dimension: test_unique_id {
@@ -152,20 +169,13 @@ view: alerts {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-	alert_id,
+	id,
 	test_name,
 	test_short_name,
 	schema_name,
-	column_name,
-	database_name,
 	table_name,
-	alerts_anomaly_detection.count,
-	alerts_dbt_models.count,
-	alerts_dbt_source_freshness.count,
-	alerts_dbt_tests.count,
-	alerts_models.count,
-	alerts_schema_changes.count,
-	alerts_source_freshness.count
+	column_name,
+	database_name
 	]
   }
 

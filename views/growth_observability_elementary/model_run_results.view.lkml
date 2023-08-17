@@ -1,8 +1,8 @@
-# The name of this view in Looker is "Snapshot Run Results"
-view: snapshot_run_results {
+# The name of this view in Looker is "Model Run Results"
+view: model_run_results {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "BRAZE_CAMPAIGN_CANVAS_ELEMENTARY"."SNAPSHOT_RUN_RESULTS" ;;
+  sql_table_name: "ELEMENTARY"."MODEL_RUN_RESULTS" ;;
 
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
@@ -77,6 +77,16 @@ view: snapshot_run_results {
     sql: ${TABLE}."INVOCATION_ID" ;;
   }
 
+  dimension: is_the_first_invocation_of_the_day {
+    type: yesno
+    sql: ${TABLE}."IS_THE_FIRST_INVOCATION_OF_THE_DAY" ;;
+  }
+
+  dimension: is_the_last_invocation_of_the_day {
+    type: yesno
+    sql: ${TABLE}."IS_THE_LAST_INVOCATION_OF_THE_DAY" ;;
+  }
+
   dimension: materialization {
     type: string
     sql: ${TABLE}."MATERIALIZATION" ;;
@@ -90,6 +100,11 @@ view: snapshot_run_results {
   dimension: model_execution_id {
     type: string
     sql: ${TABLE}."MODEL_EXECUTION_ID" ;;
+  }
+
+  dimension: model_invocation_reverse_index {
+    type: number
+    sql: ${TABLE}."MODEL_INVOCATION_REVERSE_INDEX" ;;
   }
 
   dimension: name {
@@ -148,6 +163,6 @@ view: snapshot_run_results {
   }
   measure: count {
     type: count
-    drill_fields: [database_name, name, package_name, schema_name]
+    drill_fields: [schema_name, name, package_name, database_name]
   }
 }

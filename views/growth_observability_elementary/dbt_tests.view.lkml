@@ -1,19 +1,34 @@
-# The name of this view in Looker is "Dbt Sources"
-view: dbt_sources {
+# The name of this view in Looker is "Dbt Tests"
+view: dbt_tests {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "BRAZE_CAMPAIGN_CANVAS_ELEMENTARY"."DBT_SOURCES" ;;
+  sql_table_name: "ELEMENTARY"."DBT_TESTS" ;;
 
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
 
     # Here's what a typical dimension looks like in LookML.
     # A dimension is a groupable field that can be used to filter query results.
-    # This dimension will be called "Database Name" in Explore.
+    # This dimension will be called "Alias" in Explore.
+
+  dimension: alias {
+    type: string
+    sql: ${TABLE}."ALIAS" ;;
+  }
 
   dimension: database_name {
     type: string
     sql: ${TABLE}."DATABASE_NAME" ;;
+  }
+
+  dimension: depends_on_macros {
+    type: string
+    sql: ${TABLE}."DEPENDS_ON_MACROS" ;;
+  }
+
+  dimension: depends_on_nodes {
+    type: string
+    sql: ${TABLE}."DEPENDS_ON_NODES" ;;
   }
 
   dimension: description {
@@ -21,34 +36,14 @@ view: dbt_sources {
     sql: ${TABLE}."DESCRIPTION" ;;
   }
 
-  dimension: freshness_error_after {
+  dimension: error_if {
     type: string
-    sql: ${TABLE}."FRESHNESS_ERROR_AFTER" ;;
-  }
-
-  dimension: freshness_filter {
-    type: string
-    sql: ${TABLE}."FRESHNESS_FILTER" ;;
-  }
-
-  dimension: freshness_warn_after {
-    type: string
-    sql: ${TABLE}."FRESHNESS_WARN_AFTER" ;;
+    sql: ${TABLE}."ERROR_IF" ;;
   }
 
   dimension: generated_at {
     type: string
     sql: ${TABLE}."GENERATED_AT" ;;
-  }
-
-  dimension: identifier {
-    type: string
-    sql: ${TABLE}."IDENTIFIER" ;;
-  }
-
-  dimension: loaded_at_field {
-    type: string
-    sql: ${TABLE}."LOADED_AT_FIELD" ;;
   }
 
   dimension: meta {
@@ -61,6 +56,16 @@ view: dbt_sources {
     sql: ${TABLE}."METADATA_HASH" ;;
   }
 
+  dimension: model_owners {
+    type: string
+    sql: ${TABLE}."MODEL_OWNERS" ;;
+  }
+
+  dimension: model_tags {
+    type: string
+    sql: ${TABLE}."MODEL_TAGS" ;;
+  }
+
   dimension: name {
     type: string
     sql: ${TABLE}."NAME" ;;
@@ -71,14 +76,14 @@ view: dbt_sources {
     sql: ${TABLE}."ORIGINAL_PATH" ;;
   }
 
-  dimension: owner {
-    type: string
-    sql: ${TABLE}."OWNER" ;;
-  }
-
   dimension: package_name {
     type: string
     sql: ${TABLE}."PACKAGE_NAME" ;;
+  }
+
+  dimension: parent_model_unique_id {
+    type: string
+    sql: ${TABLE}."PARENT_MODEL_UNIQUE_ID" ;;
   }
 
   dimension: path {
@@ -86,24 +91,19 @@ view: dbt_sources {
     sql: ${TABLE}."PATH" ;;
   }
 
-  dimension: relation_name {
-    type: string
-    sql: ${TABLE}."RELATION_NAME" ;;
-  }
-
   dimension: schema_name {
     type: string
     sql: ${TABLE}."SCHEMA_NAME" ;;
   }
 
-  dimension: source_description {
+  dimension: severity {
     type: string
-    sql: ${TABLE}."SOURCE_DESCRIPTION" ;;
+    sql: ${TABLE}."SEVERITY" ;;
   }
 
-  dimension: source_name {
+  dimension: short_name {
     type: string
-    sql: ${TABLE}."SOURCE_NAME" ;;
+    sql: ${TABLE}."SHORT_NAME" ;;
   }
 
   dimension: tags {
@@ -111,9 +111,34 @@ view: dbt_sources {
     sql: ${TABLE}."TAGS" ;;
   }
 
+  dimension: test_column_name {
+    type: string
+    sql: ${TABLE}."TEST_COLUMN_NAME" ;;
+  }
+
+  dimension: test_namespace {
+    type: string
+    sql: ${TABLE}."TEST_NAMESPACE" ;;
+  }
+
+  dimension: test_params {
+    type: string
+    sql: ${TABLE}."TEST_PARAMS" ;;
+  }
+
+  dimension: type {
+    type: string
+    sql: ${TABLE}."TYPE" ;;
+  }
+
   dimension: unique_id {
     type: string
     sql: ${TABLE}."UNIQUE_ID" ;;
+  }
+
+  dimension: warn_if {
+    type: string
+    sql: ${TABLE}."WARN_IF" ;;
   }
   measure: count {
     type: count
@@ -123,12 +148,12 @@ view: dbt_sources {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-	relation_name,
-	source_name,
-	package_name,
 	name,
-	schema_name,
-	database_name
+	package_name,
+	database_name,
+	test_column_name,
+	short_name,
+	schema_name
 	]
   }
 
