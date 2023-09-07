@@ -1,23 +1,15 @@
 connection: "sf_brazegrowtheast_bi_dwh_prod"
 
-#include: "/views/observability_elementary_ccep/*.view.lkml"                # include all views in the views/ folder in this project
-# include: "/**/*.view.lkml"                 # include all views in this project
+include: "/views/growth_observability_elementary/*.view.lkml"                 # include all views in this project
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
 # include: "/views/observability_elementary_ccep/*.view.lkml"
 include: "/explores/*.explore"
 include: "/dashboards/*.dashboard.lookml"
 
-# # Select the views that should be a part of this model,
-# # and define the joins that connect them together.
-#
-# explore: order_items {
-#   join: orders {
-#     relationship: many_to_one
-#     sql_on: ${orders.id} = ${order_items.order_id} ;;
-#   }
-#
-#   join: users {
-#     relationship: many_to_one
-#     sql_on: ${users.id} = ${orders.user_id} ;;
-#   }
-# }
+
+explore: dbt_models {
+  join: dbt_tests {
+    relationship: many_to_many
+    sql_on: ${dbt_models.unique_id} = ${dbt_tests.parent_model_unique_id} ;;
+  }
+}

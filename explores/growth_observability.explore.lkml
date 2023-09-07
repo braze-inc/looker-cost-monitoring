@@ -7,3 +7,5 @@ explore: elementary_test_results {
 explore: model_run_results {
   # hidden: yes
 }
+
+explore: dbt_tests {}

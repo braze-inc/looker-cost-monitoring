@@ -42,7 +42,7 @@ view: dbt_tests {
   }
 
   dimension: generated_at {
-    type: string
+    type: date
     sql: ${TABLE}."GENERATED_AT" ;;
   }
 
@@ -134,6 +134,7 @@ view: dbt_tests {
   dimension: unique_id {
     type: string
     sql: ${TABLE}."UNIQUE_ID" ;;
+    primary_key: yes
   }
 
   dimension: warn_if {
@@ -145,16 +146,18 @@ view: dbt_tests {
     drill_fields: [detail*]
   }
 
+
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-	name,
-	package_name,
-	database_name,
-	test_column_name,
-	short_name,
-	schema_name
-	]
+  name,
+  package_name,
+  database_name,
+  test_column_name,
+  short_name,
+  schema_name
+  ]
   }
 
 }

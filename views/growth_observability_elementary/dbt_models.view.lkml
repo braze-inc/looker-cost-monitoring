@@ -42,7 +42,7 @@ view: dbt_models {
   }
 
   dimension: generated_at {
-    type: string
+    type: date
     sql: ${TABLE}."GENERATED_AT" ;;
   }
 
@@ -99,6 +99,7 @@ view: dbt_models {
   dimension: unique_id {
     type: string
     sql: ${TABLE}."UNIQUE_ID" ;;
+    primary_key: yes
   }
   measure: count {
     type: count
