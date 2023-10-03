@@ -13,3 +13,5 @@ explore: dbt_models {
     sql_on: ${dbt_models.unique_id} = ${dbt_tests.parent_model_unique_id} ;;
   }
 }
+
+explore: dbt_monitored_tables {}
