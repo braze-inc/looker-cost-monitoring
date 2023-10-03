@@ -2,19 +2,47 @@ view: dbt_monitored_tables {
 
   derived_table: {
     sql:
-       SELECT 'models' as type,
-              count(distinct m.unique_id) total_tables,
-              count(distinct t.parent_model_unique_id) monitored_tables
-       FROM DWH_PROD.ELEMENTARY.dbt_models m
-       left join DWH_PROD.ELEMENTARY.dbt_tests t on t.parent_model_unique_id = m.unique_id
+       select 'models' as type,
+            m.unique_id,
+            case
+                when t.parent_model_unique_id is not null then 'Monitored'
+                else 'Unmonitored'
+            end as status
+        from DWH_PROD.ELEMENTARY.DBT_MODELS m
+        left join DWH_PROD.ELEMENTARY.DBT_TESTS t on t.parent_model_unique_id = m.unique_id
 
-       UNION
+        union
 
-       SELECT 'sources' as type,
-              count(distinct m.unique_id) total_tables,
-              count(distinct t.parent_model_unique_id) monitored_tables
-       FROM DWH_PROD.ELEMENTARY.dbt_sources m
-       left join DWH_PROD.ELEMENTARY.dbt_tests t on t.parent_model_unique_id = m.unique_id
+        select 'sources' as type,
+            m.unique_id,
+            case
+                when t.parent_model_unique_id is not null then 'Monitored'
+                else 'Unmonitored'
+            end as status
+        from DWH_PROD.ELEMENTARY.DBT_SOURCES m
+        left join DWH_PROD.ELEMENTARY.DBT_TESTS t on t.parent_model_unique_id = m.unique_id
+
+        union
+
+        select 'seeds' as type,
+            m.unique_id,
+            case
+                when t.parent_model_unique_id is not null then 'Monitored'
+                else 'Unmonitored'
+            end as status
+        from DWH_PROD.ELEMENTARY.DBT_SEEDS m
+        left join DWH_PROD.ELEMENTARY.DBT_TESTS t on t.parent_model_unique_id = m.unique_id
+
+        union
+
+        select 'snapshots' as type,
+            m.unique_id,
+            case
+                when t.parent_model_unique_id is not null then 'Monitored'
+                else 'Unmonitored'
+            end as status
+        from DWH_PROD.ELEMENTARY.DBT_SNAPSHOTS m
+        left join DWH_PROD.ELEMENTARY.DBT_TESTS t on t.parent_model_unique_id = m.unique_id
       ;;
   }
 
@@ -27,14 +55,14 @@ view: dbt_monitored_tables {
     sql: ${TABLE}.type ;;
   }
 
-  dimension: total_tables {
-    type: number
-    sql: ${TABLE}.total_tables ;;
+  dimension: unique_id {
+    type: string
+    sql: ${TABLE}.unique_id ;;
   }
 
-  dimension: monitored_tables {
-    type: number
-    sql: ${TABLE}.monitored_tables ;;
+  dimension: status {
+    type: string
+    sql: ${TABLE}.status ;;
   }
   #
   # measure: total_lifetime_orders {
