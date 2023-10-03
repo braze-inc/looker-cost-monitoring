@@ -2,40 +2,40 @@ view: dbt_monitored_tables {
 
   derived_table: {
     sql:
-       SELECT 'models' as type, count(distinct m.unique_id) total_tables, count(distinct t.parent_model_unique_id) monitored_tables
-       FROM dwh_PROD.ELEMENTARY.dbt_models m
+       SELECT 'models' as type,
+              count(distinct m.unique_id) total_tables,
+              count(distinct t.parent_model_unique_id) monitored_tables
+       FROM DWH_PROD.ELEMENTARY.dbt_models m
        left join DWH_PROD.ELEMENTARY.dbt_tests t on t.parent_model_unique_id = m.unique_id
 
        UNION
 
-       SELECT 'sources' as type, count(distinct m.unique_id) total_tables, count(distinct t.parent_model_unique_id) monitored_tables
-       FROM dwh_PROD.ELEMENTARY.dbt_sources m
+       SELECT 'sources' as type,
+              count(distinct m.unique_id) total_tables,
+              count(distinct t.parent_model_unique_id) monitored_tables
+       FROM DWH_PROD.ELEMENTARY.dbt_sources m
        left join DWH_PROD.ELEMENTARY.dbt_tests t on t.parent_model_unique_id = m.unique_id
       ;;
   }
 
   # # You can specify the table name if it's different from the view name:
   # sql_table_name: my_schema_name.tester ;;
-  #
-  # # Define your dimensions and measures here, like this:
-  # dimension: user_id {
-  #   description: "Unique ID for each user that has ordered"
-  #   type: number
-  #   sql: ${TABLE}.user_id ;;
-  # }
-  #
-  # dimension: lifetime_orders {
-  #   description: "The total number of orders for each user"
-  #   type: number
-  #   sql: ${TABLE}.lifetime_orders ;;
-  # }
-  #
-  # dimension_group: most_recent_purchase {
-  #   description: "The date when each user last ordered"
-  #   type: time
-  #   timeframes: [date, week, month, year]
-  #   sql: ${TABLE}.most_recent_purchase_at ;;
-  # }
+
+  # Define your dimensions and measures here, like this:
+  dimension: type {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: total_tables {
+    type: number
+    sql: ${TABLE}.total_tables ;;
+  }
+
+  dimension: monitored_tables {
+    type: number
+    sql: ${TABLE}.monitored_tables ;;
+  }
   #
   # measure: total_lifetime_orders {
   #   description: "Use this for counting lifetime orders across many users"
