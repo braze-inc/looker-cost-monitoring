@@ -3,14 +3,14 @@ view: dbt_monitored_tables {
   derived_table: {
     sql:
        SELECT 'models' as type, count(distinct m.unique_id) total_tables, count(distinct t.parent_model_unique_id) monitored_tables
-       FROM dbt_models m
-       left join dbt_tests t on t.parent_model_unique_id = m.unique_id
+       FROM dwh_PROD.ELEMENTARY.dbt_models m
+       left join DWH_PROD.ELEMENTARY.dbt_tests t on t.parent_model_unique_id = m.unique_id
 
        UNION
 
        SELECT 'sources' as type, count(distinct m.unique_id) total_tables, count(distinct t.parent_model_unique_id) monitored_tables
-       FROM dbt_sources m
-       left join dbt_tests t on t.parent_model_unique_id = m.unique_id
+       FROM dwh_PROD.ELEMENTARY.dbt_sources m
+       left join DWH_PROD.ELEMENTARY.dbt_tests t on t.parent_model_unique_id = m.unique_id
       ;;
   }
 
