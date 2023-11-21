@@ -8,6 +8,14 @@ explore: growth_model_run_results {
   # hidden: yes
 }
 
+explore: elementary_test_results {
+  # hidden: yes
+}
+
+explore: model_run_results {
+  # hidden: yes
+}
+
 
 
 explore: dbt_tests {}
