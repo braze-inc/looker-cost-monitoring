@@ -8,8 +8,8 @@ view: dbt_monitored_tables {
                 when t.parent_model_unique_id is not null then 'Monitored'
                 else 'Unmonitored'
             end as status
-        from DWH_PROD.ELEMENTARY.DBT_MODELS m
-        left join DWH_PROD.ELEMENTARY.DBT_TESTS t on t.parent_model_unique_id = m.unique_id
+        from DWH_PROD.ELEMENTARY.GROWTH_DBT_MODELS m
+        left join DWH_PROD.ELEMENTARY.GROWTH_DBT_TESTS t on t.parent_model_unique_id = m.unique_id
 
         union
 
@@ -19,8 +19,8 @@ view: dbt_monitored_tables {
                 when t.parent_model_unique_id is not null then 'Monitored'
                 else 'Unmonitored'
             end as status
-        from DWH_PROD.ELEMENTARY.DBT_SOURCES m
-        left join DWH_PROD.ELEMENTARY.DBT_TESTS t on t.parent_model_unique_id = m.unique_id
+        from DWH_PROD.ELEMENTARY.GROWTH_DBT_SOURCES m
+        left join DWH_PROD.ELEMENTARY.GROWTH_DBT_TESTS t on t.parent_model_unique_id = m.unique_id
 
         union
 
@@ -30,8 +30,8 @@ view: dbt_monitored_tables {
                 when t.parent_model_unique_id is not null then 'Monitored'
                 else 'Unmonitored'
             end as status
-        from DWH_PROD.ELEMENTARY.DBT_SEEDS m
-        left join DWH_PROD.ELEMENTARY.DBT_TESTS t on t.parent_model_unique_id = m.unique_id
+        from DWH_PROD.ELEMENTARY.GROWTH_DBT_SEEDS m
+        left join DWH_PROD.ELEMENTARY.GROWTH_DBT_TESTS t on t.parent_model_unique_id = m.unique_id
 
         union
 
@@ -41,8 +41,8 @@ view: dbt_monitored_tables {
                 when t.parent_model_unique_id is not null then 'Monitored'
                 else 'Unmonitored'
             end as status
-        from DWH_PROD.ELEMENTARY.DBT_SNAPSHOTS m
-        left join DWH_PROD.ELEMENTARY.DBT_TESTS t on t.parent_model_unique_id = m.unique_id
+        from DWH_PROD.ELEMENTARY.GROWTH_DBT_SNAPSHOTS m
+        left join DWH_PROD.ELEMENTARY.GROWTH_DBT_TESTS t on t.parent_model_unique_id = m.unique_id
       ;;
   }
 
