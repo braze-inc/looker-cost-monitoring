@@ -1,7 +1,7 @@
 connection: "braze_data_services_common"
 
 include: "/views/data_quality_scorecards/*.view"
-include: "/explores/*.explore"
+include: "/explores/health_scorecards.explore"
 include: "/dashboards/*.dashboard.lookml"
 # include: "/views/*.view.lkml"                # include all views in the views/ folder in this project
 # include: "/**/*.view.lkml"                 # include all views in this project
