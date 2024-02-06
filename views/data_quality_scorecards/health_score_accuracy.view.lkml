@@ -7,47 +7,49 @@ view: health_score_accuracy {
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
 
+  # Dates and timestamps can be represented in Looker using a dimension group of type: time.
+  # Looker converts dates and timestamps to the specified timeframes within the dimension group.
+
+  dimension_group: detected {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: ${TABLE}."DETECTED_AT" ;;
+  }
     # Here's what a typical dimension looks like in LookML.
     # A dimension is a groupable field that can be used to filter query results.
-    # This dimension will be called "Error Count" in Explore.
-
-  dimension: error_count {
-    type: number
-    sql: ${TABLE}."ERROR_COUNT" ;;
-  }
-
-  # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
-  # measures for this dimension, but you can also add measures of many different aggregates.
-  # Click on the type parameter to see all the options in the Quick Help panel on the right.
-
-  measure: total_error_count {
-    type: sum
-    sql: ${error_count} ;;  }
-  measure: average_error_count {
-    type: average
-    sql: ${error_count} ;;  }
-
-  dimension: pass_count {
-    type: number
-    sql: ${TABLE}."PASS_COUNT" ;;
-  }
+    # This dimension will be called "Schema Name" in Explore.
 
   dimension: schema_name {
     type: string
     sql: ${TABLE}."SCHEMA_NAME" ;;
   }
 
-  dimension: test_count {
-    type: number
-    sql: ${TABLE}."TEST_COUNT" ;;
+  dimension: status {
+    type: string
+    sql: ${TABLE}."STATUS" ;;
   }
 
-  dimension: warn_count {
-    type: number
-    sql: ${TABLE}."WARN_COUNT" ;;
+  dimension: table_name {
+    type: string
+    sql: ${TABLE}."TABLE_NAME" ;;
+  }
+
+  dimension: test_name {
+    type: string
+    sql: ${TABLE}."TEST_NAME" ;;
+  }
+
+  dimension: test_short_name {
+    type: string
+    sql: ${TABLE}."TEST_SHORT_NAME" ;;
+  }
+
+  dimension: test_type {
+    type: string
+    sql: ${TABLE}."TEST_TYPE" ;;
   }
   measure: count {
     type: count
-    drill_fields: [schema_name]
+    drill_fields: [table_name, test_short_name, test_name, schema_name]
   }
 }
