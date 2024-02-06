@@ -21,11 +21,6 @@ view: scorecard_dbt_models {
     sql: ${TABLE}."META" ;;
   }
 
-  dimension: name {
-    type: string
-    sql: ${TABLE}."NAME" ;;
-  }
-
   dimension: owner {
     type: string
     sql: ${TABLE}."OWNER" ;;
@@ -36,17 +31,11 @@ view: scorecard_dbt_models {
     sql: ${TABLE}."PROJECT" ;;
   }
 
-  dimension: schema_name {
-    type: string
-    sql: ${TABLE}."SCHEMA_NAME" ;;
-  }
-
   dimension: tags {
     type: string
     sql: ${TABLE}."TAGS" ;;
   }
   measure: count {
     type: count
-    drill_fields: [schema_name, name]
   }
 }
