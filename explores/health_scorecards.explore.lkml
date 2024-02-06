@@ -5,3 +5,5 @@ explore: health_score_accuracy {}
 explore: health_score_coverage {}
 
 explore: health_score_metadata {}
+
+explore: ephemeral_elementary_test_results {}
