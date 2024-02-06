@@ -2,39 +2,44 @@
 view: health_score_metadata {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "PROD_SCORECARD"."HEALTH_SCORE_METADATA" ;;
+  sql_table_name: "TEST_TERR_SCORECARD"."HEALTH_SCORE_METADATA" ;;
 
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
 
     # Here's what a typical dimension looks like in LookML.
     # A dimension is a groupable field that can be used to filter query results.
-    # This dimension will be called "Description Coverage" in Explore.
+    # This dimension will be called "Description Count" in Explore.
 
-  dimension: description_coverage {
+  dimension: description_count {
     type: number
-    sql: ${TABLE}."DESCRIPTION_COVERAGE" ;;
+    sql: ${TABLE}."DESCRIPTION_COUNT" ;;
   }
 
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
-  measure: total_description_coverage {
+  measure: total_description_count {
     type: sum
-    sql: ${description_coverage} ;;  }
-  measure: average_description_coverage {
+    sql: ${description_count} ;;  }
+  measure: average_description_count {
     type: average
-    sql: ${description_coverage} ;;  }
+    sql: ${description_count} ;;  }
 
-  dimension: meta_coverage {
+  dimension: meta_count {
     type: number
-    sql: ${TABLE}."META_COVERAGE" ;;
+    sql: ${TABLE}."META_COUNT" ;;
   }
 
-  dimension: owner_coverage {
+  dimension: model_count {
     type: number
-    sql: ${TABLE}."OWNER_COVERAGE" ;;
+    sql: ${TABLE}."MODEL_COUNT" ;;
+  }
+
+  dimension: owner_count {
+    type: number
+    sql: ${TABLE}."OWNER_COUNT" ;;
   }
 
   dimension: project {
@@ -42,9 +47,9 @@ view: health_score_metadata {
     sql: ${TABLE}."PROJECT" ;;
   }
 
-  dimension: tags_coverage {
+  dimension: tags_count {
     type: number
-    sql: ${TABLE}."TAGS_COVERAGE" ;;
+    sql: ${TABLE}."TAGS_COUNT" ;;
   }
   measure: count {
     type: count
