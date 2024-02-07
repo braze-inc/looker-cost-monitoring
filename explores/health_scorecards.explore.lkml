@@ -9,3 +9,9 @@ explore: health_score_metadata {}
 explore: ephemeral_elementary_test_results {}
 
 explore: scorecard_dbt_models {}
+
+explore: metadata_count {}
+
+explore: model_test_coverage {}
+
+explore: test_results__unioned {}
