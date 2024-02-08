@@ -42,6 +42,11 @@ view: metadata_count {
     sql: ${TABLE}."OWNER_COUNT" ;;
   }
 
+  dimension: path {
+    type: string
+    sql: ${TABLE}."PATH" ;;
+  }
+
   dimension: project {
     type: string
     sql: ${TABLE}."PROJECT" ;;
