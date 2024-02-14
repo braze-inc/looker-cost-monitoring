@@ -2,7 +2,7 @@
 view: dbt_models {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "ELEMENTARY"."DBT_MODELS" ;;
+  sql_table_name: "PROD_ELEMENTARY"."DBT_MODELS" ;;
 
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
@@ -42,7 +42,7 @@ view: dbt_models {
   }
 
   dimension: generated_at {
-    type: date
+    type: string
     sql: ${TABLE}."GENERATED_AT" ;;
   }
 
@@ -99,7 +99,6 @@ view: dbt_models {
   dimension: unique_id {
     type: string
     sql: ${TABLE}."UNIQUE_ID" ;;
-    primary_key: yes
   }
   measure: count {
     type: count
