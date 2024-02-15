@@ -16,6 +16,71 @@ view: dbt_models_view {
 
       ;;
   }
+
+  dimension: unique_id {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: alias {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: tags {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: meta {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: owner {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: database_name {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: schema_name {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: description {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: name {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: original_path {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: path {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: generated_at {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: project {
+    type: string
+    sql: ${TABLE}.type ;;
+  }
 }
 
 # view: dbt_models_view {
