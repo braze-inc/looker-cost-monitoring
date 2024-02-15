@@ -6,6 +6,4 @@ explore: model_test_coverage {}
 
 explore: test_results__unioned {}
 
-explore: dbt_models {}
-
 explore: dbt_models_view {}

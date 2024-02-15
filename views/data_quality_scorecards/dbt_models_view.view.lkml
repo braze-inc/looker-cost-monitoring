@@ -1,123 +1,112 @@
+# The name of this view in Looker is "Dbt Models View"
 view: dbt_models_view {
-  # # You can specify the table name if it's different from the view name:
-  # sql_table_name: my_schema_name.tester ;;
-  #
-  # # Define your dimensions and measures here, like this:
-  # dimension: user_id {
-  #   description: "Unique ID for each user that has ordered"
-  #   type: number
-  #   sql: ${TABLE}.user_id ;;
-  # }
-  #
-  derived_table: {
-    sql:
-       select *, split_part(path,'/',2) as project
-        from COMMON.PROD_ELEMENTARY.DBT_MODELS m
+  # The sql_table_name parameter indicates the underlying database table
+  # to be used for all fields in this view.
+  sql_table_name: "TEST_TERR_SCORECARD"."DBT_MODELS_VIEW" ;;
 
-      ;;
-  }
+  # No primary key is defined for this view. In order to join this view in an Explore,
+  # define primary_key: yes on a dimension that has no repeated values.
 
-  dimension: unique_id {
-    type: string
-    sql: ${TABLE}.type ;;
-  }
+    # Here's what a typical dimension looks like in LookML.
+    # A dimension is a groupable field that can be used to filter query results.
+    # This dimension will be called "Alias" in Explore.
 
   dimension: alias {
     type: string
-    sql: ${TABLE}.type ;;
+    sql: ${TABLE}."ALIAS" ;;
   }
 
-  dimension: tags {
+  dimension: checksum {
     type: string
-    sql: ${TABLE}.type ;;
-  }
-
-  dimension: meta {
-    type: string
-    sql: ${TABLE}.type ;;
-  }
-
-  dimension: owner {
-    type: string
-    sql: ${TABLE}.type ;;
+    sql: ${TABLE}."CHECKSUM" ;;
   }
 
   dimension: database_name {
     type: string
-    sql: ${TABLE}.type ;;
+    sql: ${TABLE}."DATABASE_NAME" ;;
   }
 
-  dimension: schema_name {
+  dimension: depends_on_macros {
     type: string
-    sql: ${TABLE}.type ;;
+    sql: ${TABLE}."DEPENDS_ON_MACROS" ;;
+  }
+
+  dimension: depends_on_nodes {
+    type: string
+    sql: ${TABLE}."DEPENDS_ON_NODES" ;;
   }
 
   dimension: description {
     type: string
-    sql: ${TABLE}.type ;;
-  }
-
-  dimension: name {
-    type: string
-    sql: ${TABLE}.type ;;
-  }
-
-  dimension: original_path {
-    type: string
-    sql: ${TABLE}.type ;;
-  }
-
-  dimension: path {
-    type: string
-    sql: ${TABLE}.type ;;
+    sql: ${TABLE}."DESCRIPTION" ;;
   }
 
   dimension: generated_at {
     type: string
-    sql: ${TABLE}.type ;;
+    sql: ${TABLE}."GENERATED_AT" ;;
+  }
+
+  dimension: materialization {
+    type: string
+    sql: ${TABLE}."MATERIALIZATION" ;;
+  }
+
+  dimension: meta {
+    type: string
+    sql: ${TABLE}."META" ;;
+  }
+
+  dimension: metadata_hash {
+    type: string
+    sql: ${TABLE}."METADATA_HASH" ;;
+  }
+
+  dimension: name {
+    type: string
+    sql: ${TABLE}."NAME" ;;
+  }
+
+  dimension: original_path {
+    type: string
+    sql: ${TABLE}."ORIGINAL_PATH" ;;
+  }
+
+  dimension: owner {
+    type: string
+    sql: ${TABLE}."OWNER" ;;
+  }
+
+  dimension: package_name {
+    type: string
+    sql: ${TABLE}."PACKAGE_NAME" ;;
+  }
+
+  dimension: path {
+    type: string
+    sql: ${TABLE}."PATH" ;;
   }
 
   dimension: project {
     type: string
-    sql: ${TABLE}.type ;;
+    sql: ${TABLE}."PROJECT" ;;
+  }
+
+  dimension: schema_name {
+    type: string
+    sql: ${TABLE}."SCHEMA_NAME" ;;
+  }
+
+  dimension: tags {
+    type: string
+    sql: ${TABLE}."TAGS" ;;
+  }
+
+  dimension: unique_id {
+    type: string
+    sql: ${TABLE}."UNIQUE_ID" ;;
+  }
+  measure: count {
+    type: count
+    drill_fields: [database_name, schema_name, package_name, name]
   }
 }
-
-# view: dbt_models_view {
-#   # Or, you could make this view a derived table, like this:
-#   derived_table: {
-#     sql: SELECT
-#         user_id as user_id
-#         , COUNT(*) as lifetime_orders
-#         , MAX(orders.created_at) as most_recent_purchase_at
-#       FROM orders
-#       GROUP BY user_id
-#       ;;
-#   }
-#
-#   # Define your dimensions and measures here, like this:
-#   dimension: user_id {
-#     description: "Unique ID for each user that has ordered"
-#     type: number
-#     sql: ${TABLE}.user_id ;;
-#   }
-#
-#   dimension: lifetime_orders {
-#     description: "The total number of orders for each user"
-#     type: number
-#     sql: ${TABLE}.lifetime_orders ;;
-#   }
-#
-#   dimension_group: most_recent_purchase {
-#     description: "The date when each user last ordered"
-#     type: time
-#     timeframes: [date, week, month, year]
-#     sql: ${TABLE}.most_recent_purchase_at ;;
-#   }
-#
-#   measure: total_lifetime_orders {
-#     description: "Use this for counting lifetime orders across many users"
-#     type: sum
-#     sql: ${lifetime_orders} ;;
-#   }
-# }
