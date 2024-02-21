@@ -9,23 +9,28 @@ view: model_test_coverage {
 
     # Here's what a typical dimension looks like in LookML.
     # A dimension is a groupable field that can be used to filter query results.
-    # This dimension will be called "Model Coverage Percentage" in Explore.
+    # This dimension will be called "Model Coverage" in Explore.
 
-  dimension: model_coverage_percentage {
+  dimension: model_coverage {
     type: number
-    sql: ${TABLE}."MODEL_COVERAGE_PERCENTAGE" ;;
+    sql: ${TABLE}."MODEL_COVERAGE" ;;
   }
 
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
-  measure: total_model_coverage_percentage {
+  measure: total_model_coverage {
     type: sum
-    sql: ${model_coverage_percentage} ;;  }
-  measure: average_model_coverage_percentage {
+    sql: ${model_coverage} ;;  }
+  measure: average_model_coverage {
     type: average
-    sql: ${model_coverage_percentage} ;;  }
+    sql: ${model_coverage} ;;  }
+
+  dimension: model_coverage_percentage_overall {
+    type: number
+    sql: ${TABLE}."MODEL_COVERAGE_PERCENTAGE_OVERALL" ;;
+  }
 
   dimension: schema_name {
     type: string
