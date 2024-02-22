@@ -2,7 +2,7 @@
 view: dbt_models_view {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "TEST_TERR_SCORECARD"."DBT_MODELS_VIEW" ;;
+  sql_table_name: "PROD_SCORECARD"."DBT_MODELS_VIEW" ;;
 
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
@@ -107,6 +107,6 @@ view: dbt_models_view {
   }
   measure: count {
     type: count
-    drill_fields: [database_name, schema_name, package_name, name]
+    drill_fields: [database_name, name, package_name, schema_name]
   }
 }
