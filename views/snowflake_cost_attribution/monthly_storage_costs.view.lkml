@@ -48,6 +48,7 @@ view: monthly_storage_costs {
   measure: total_spend {
     type: sum
     sql: ${spend} ;;  }
+
   measure: average_spend {
     type: average
     sql: ${spend} ;;  }

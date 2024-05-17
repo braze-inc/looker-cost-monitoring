@@ -525,10 +525,7 @@ view: monthly_query_costs {
     sql: ${TABLE}."TOTAL_ELAPSED_TIME_S" ;;
   }
 
-  dimension: total_query_cost {
-    type: number
-    sql: ${TABLE}."TOTAL_QUERY_COST" ;;
-  }
+
 
   dimension: transaction_blocked_time_ms {
     type: number
@@ -569,19 +566,24 @@ view: monthly_query_costs {
     drill_fields: [detail*]
   }
 
+  measure: total_query_cost {
+    type: sum
+    sql: ${TABLE}."TOTAL_QUERY_COST" ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-	dbt_project_name,
-	dbt_target_name,
-	schema_name,
-	database_name,
-	warehouse_name,
-	table_name,
-	user_name,
-	project_name,
-	role_name
-	]
+  dbt_project_name,
+  dbt_target_name,
+  schema_name,
+  database_name,
+  warehouse_name,
+  table_name,
+  user_name,
+  project_name,
+  role_name
+  ]
   }
 
 }
