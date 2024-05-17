@@ -1,8 +1,8 @@
-# The name of this view in Looker is "Dbt Models"
-view: dbt_models {
+# The name of this view in Looker is "Growth Dbt Seeds"
+view: growth_dbt_seeds {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "ELEMENTARY"."DBT_MODELS" ;;
+  sql_table_name: "ELEMENTARY"."GROWTH_DBT_SEEDS" ;;
 
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
@@ -26,29 +26,14 @@ view: dbt_models {
     sql: ${TABLE}."DATABASE_NAME" ;;
   }
 
-  dimension: depends_on_macros {
-    type: string
-    sql: ${TABLE}."DEPENDS_ON_MACROS" ;;
-  }
-
-  dimension: depends_on_nodes {
-    type: string
-    sql: ${TABLE}."DEPENDS_ON_NODES" ;;
-  }
-
   dimension: description {
     type: string
     sql: ${TABLE}."DESCRIPTION" ;;
   }
 
   dimension: generated_at {
-    type: date
-    sql: ${TABLE}."GENERATED_AT" ;;
-  }
-
-  dimension: materialization {
     type: string
-    sql: ${TABLE}."MATERIALIZATION" ;;
+    sql: ${TABLE}."GENERATED_AT" ;;
   }
 
   dimension: meta {
@@ -99,10 +84,9 @@ view: dbt_models {
   dimension: unique_id {
     type: string
     sql: ${TABLE}."UNIQUE_ID" ;;
-    primary_key: yes
   }
   measure: count {
     type: count
-    drill_fields: [database_name, schema_name, package_name, name]
+    drill_fields: [name, schema_name, database_name, package_name]
   }
 }
