@@ -3,8 +3,7 @@ connection: "braze_data_services_cost_attribution"
 
 # include all the views
 # include: "/views/snowflake_cost_attribution/*.view"
-include: "/views/snowflake_cost_attribution/query_history_enriched.view"
-include: "/views/snowflake_cost_attribution/query_cost_last_30_days_view.view"
+include: "/views/snowflake_cost_attribution/*.view"
 # include: "/explores/*.explore"
 include: "/explores/SIEM.explore"
 include: "/explores/cost_per_query.explore"
