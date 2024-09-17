@@ -14,4 +14,6 @@ include: "/dashboards/*.dashboard.lookml"
 #   }
 # }
 
-explore: dbt_monitored_tables {}
+explore: dbt_monitored_tables {
+  hidden: yes
+}
